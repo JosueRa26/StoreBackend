@@ -1,0 +1,84 @@
+
+# =========================
+# Build results
+# =========================
+bin/
+obj/
+out/
+
+# =========================
+# Visual Studio
+# =========================
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# =========================
+# Rider / JetBrains (por si acaso)
+# =========================
+.idea/
+
+# =========================
+# VS Code (si lo usas a veces)
+# =========================
+.vscode/
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# NuGet
+# =========================
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+*.nuget.props
+*.nuget.targets
+
+# =========================
+# Publish / Output
+# =========================
+publish/
+wwwroot/dist/
+wwwroot/build/
+
+# =========================
+# Secrets / config local
+# =========================
+appsettings.Development.json
+secrets.json
+
+# =========================
+# Test results
+# =========================
+TestResults/
+
+# =========================
+# Coverage
+# =========================
+*.coverage
+*.coveragexml
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Temp files
+# =========================
+*.tmp
+*.temp
+
+# =========================
+# Others
+# =========================
+*.cache
+*.pdb
+*.mdb
