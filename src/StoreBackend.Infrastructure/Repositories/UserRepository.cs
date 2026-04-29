@@ -36,5 +36,17 @@ namespace StoreBackend.Infrastructure.Repositories
         {
             _context.Users.Remove(user);
         }
+
+        public async Task<bool> HasUserByUsernameAsync(string username)
+        {
+            return await _context.Users.AnyAsync(u => u.UserName == username);
+        }
+           public async Task<bool> HasUserByEmailAsync(string email)
+        {
+            return await _context.Users.AnyAsync(u => u.UserName == email);
+        }
+        
+
+    
     }
 }

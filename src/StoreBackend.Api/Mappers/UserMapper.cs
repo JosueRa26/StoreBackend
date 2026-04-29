@@ -9,15 +9,14 @@ namespace StoreBackend.Api.Mappers;
 
 public class UserMapper
 {
-    public static UserDto ToDto(CreateUserRequestModel model)
-    {
-        return new UserDto
-        {
-            ExternalId = model.ExternalId.Value,
-            UserName = model.UserName,
-            Email = model.Email
-        };
-    }
+    // public static UserDto ToDto(CreateUserRequestModel model)
+    // {
+    //     return new UserDto
+    //     {
+    //         UserName = model.UserName,
+    //         Email = model.Email
+    //     };
+    // }
 
     public static List<UserResponseModel> ToModel(List<UserDto> users)
     {
@@ -33,4 +32,15 @@ public class UserMapper
             Email = user.Email
         };
     }
+    
+    public static CreateUserDto ToDto(CreateUserRequestModel user)
+    {
+        return new CreateUserDto
+        {
+            Username = user.UserName,
+            Email = user.Email,
+            Password = user.Password,
+        };
+    }
+    
 }

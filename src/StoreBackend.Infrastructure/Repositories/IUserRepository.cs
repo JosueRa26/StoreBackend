@@ -9,6 +9,10 @@ namespace StoreBackend.Infrastructure.Repositories
     {
         Task<List<User>> GetAllAsync();
         Task<User?> GetByIdAsync(Guid ExternalId);
+
+        Task<bool> HasUserByUsernameAsync(string UserName);
+
+        Task<bool> HasUserByEmailAsync(string Email);
         Task<User> AddAsync(User user);
         Task DeleteAsync(User user);
     }

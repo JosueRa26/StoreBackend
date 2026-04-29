@@ -10,7 +10,7 @@ namespace StoreBackend.DomainService
     {
         Task<List<User>> GetAllAsync();
         Task<User?> GetByIdAsync(Guid ExternalId);
-        Task<User> AddAsync(UserDto user);
+        Task<User> AddAsync(CreateUserDto user);
         Task DeleteAsync(Guid ExternalId);
     }
 }

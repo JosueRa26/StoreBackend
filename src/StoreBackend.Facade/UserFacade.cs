@@ -22,7 +22,7 @@ public class UserFacade : IUserFacade
         this.context = context;
     }
 
-    public async Task<UserDto> AddAsync(UserDto user)
+    public async Task<UserDto> AddAsync(CreateUserDto user)
     {
         var entity  = await userService.AddAsync(user);
         await context.SaveChangesAsync();

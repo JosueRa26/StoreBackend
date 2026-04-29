@@ -27,16 +27,25 @@ namespace StoreBackend.DomainService
             return _userRepository.GetByIdAsync(ExternalId);
         }
 
-        public Task<User> AddAsync(UserDto user)
+        public async Task<User> AddAsync(CreateUserDto user)
         {
-            var userEntity = new User
+            if(await _userRepository.HasUserByUsernameAsync(user.Username))
             {
-                ExternalId = user.ExternalId,
-                UserName = user.UserName,   
-                Email = user.Email
+                throw new Exceptions.BadRequestResponseException("Username is already taken");
+            }
+            if (await _userRepository.HasUserByEmailAsync(user.Email))
+            {
+                throw new Exceptions.BadRequestResponseException("Email is already taken");
+            }
+            var entity = new User
+            {
+                ExternalId = Guid.NewGuid(),
+                UserName = user.Username,
+                Email = user.Email,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.Password) //encriptar la contraseña
             };
-
-            return _userRepository.AddAsync(userEntity);
+            return await _userRepository.AddAsync(entity);
+            
         }
 
         public async Task DeleteAsync(Guid ExternalId)

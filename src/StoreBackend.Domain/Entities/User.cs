@@ -23,5 +23,5 @@ public class User
 
     [Column("PasswordHash")]
     [StringLength(256)]
-    public string? PasswordHash { get; set; }
+    public string? PasswordHash { get; set; } = string.Empty;
 }

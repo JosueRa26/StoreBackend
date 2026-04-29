@@ -8,6 +8,6 @@ public interface IUserFacade
 {
     Task<List<UserDto>> GetAllAsync();
     Task<UserDto> GetByIdAsync(Guid ExternalId);
-    Task<UserDto> AddAsync(UserDto user);
+    Task<UserDto> AddAsync(CreateUserDto user);
     Task DeleteAsync(Guid ExternalId);
 }

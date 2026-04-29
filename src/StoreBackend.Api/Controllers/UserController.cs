@@ -48,10 +48,21 @@ namespace StoreBackend.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUser([FromBody] CreateUserRequestModel user)
         {
-            var dto = UserMapper.ToDto(user);
-            var addedUser = await userFacade.AddAsync(dto);
-            var model = UserMapper.ToModel(addedUser);
-            return CreatedAtAction(nameof(GetUser), new { id = model.ExternalId }, model);
+            try
+            {
+                var requestDto = UserMapper.ToDto(user);
+                var userDto = await userFacade.AddAsync(requestDto);
+                var userModel = UserMapper.ToModel(userDto);
+                return Ok(userModel);
+            }
+            catch (Exceptions.BadRequestResponseException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
+            }
         }
 
         [HttpDelete("{id}")]
