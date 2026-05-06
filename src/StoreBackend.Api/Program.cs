@@ -1,3 +1,4 @@
+using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
 using StoreBackend.DomainService;
 using StoreBackend.Facade;
@@ -8,6 +9,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Controllers
 builder.Services.AddControllers();
+
+var allowedOrigins = builder.Configuration
+    .GetSection("Cors:AllowedOrigins")
+    .Get<string[]>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowedOriginsPolicy", policy =>
+    {
+        policy.WithOrigins(allowedOrigins!)
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+
+});
 
 // DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -38,9 +54,12 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseCors("AllowedOriginsPolicy");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
+
