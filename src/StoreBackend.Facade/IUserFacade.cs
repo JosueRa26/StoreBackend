@@ -10,4 +10,9 @@ public interface IUserFacade
     Task<UserDto> GetByIdAsync(Guid ExternalId);
     Task<UserDto> AddAsync(CreateUserDto user);
     Task DeleteAsync(Guid ExternalId);
+    Task<UserRolesDto> GetUserRolesAsync(Guid userId);
+    Task<UserRolesDto> UpdateUserRolesAsync(Guid userId, UpdateRolesDto dto);
+    Task DeleteUserRolesAsync(Guid userId);
+
+
 }

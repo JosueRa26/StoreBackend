@@ -19,7 +19,14 @@ namespace StoreBackend.Facade.Mappers
                 ExternalId = user.ExternalId,
                 UserName = user.UserName,
                 Email = user.Email
-                
+
+            };
+        }
+        public static UserRolesDto ToUserRolesDto(User user)
+        {
+            return new UserRolesDto
+            {
+                Roles = user.UserRoles?.Select(ur => ur.Role.Name).ToList() ?? [],
             };
         }
     }

@@ -3,9 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using StoreBackend.Facade;
 using StoreBackend.Api.Models.Requests;
 using StoreBackend.Api.Mappers;
+using StoreBackend.Api.Mappers;
 using StoreBackend.Exceptions;
 using StoreBackend.Domain.Entities;
 using StoreBackend.DomainService;
+using StoreBackend.Api.Security;
+using Microsoft.AspNetCore.Authorization;
+
+
 
 
 
@@ -13,15 +18,16 @@ namespace StoreBackend.Api.Controllers
 {
     [Route("api/users")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController(IUserFacade userFacade) : ControllerBase
     {
+        /*
         private readonly IUserFacade userFacade;
 
         public UserController(IUserFacade userFacade)
         {
             this.userFacade = userFacade;
-        }
-
+        }*/
+        [Authorize(Policy = AuthorizationPolicies.CanSearchUsers)]
         [HttpGet]
         public async Task<IActionResult> GetUser()
         {
@@ -45,6 +51,7 @@ namespace StoreBackend.Api.Controllers
             }
         }
 
+       [Authorize(Roles = RoleNames.Administrator)]
         [HttpPost]
         public async Task<IActionResult> AddUser([FromBody] CreateUserRequestModel user)
         {
@@ -77,6 +84,33 @@ namespace StoreBackend.Api.Controllers
             {
                 return NotFound();
             }
+        }
+        [Authorize(Roles = RoleNames.Administrator)]
+        [HttpGet("{userId}/roles")]
+        public async Task<IActionResult> GetUserRolesAsync(Guid userId)
+        {
+            var userRoles = await userFacade.GetUserRolesAsync(userId);
+            var responseModel = UserMapper.ToUserRolesResponseModel(userRoles);
+            return Ok(responseModel);
+        }
+
+        [Authorize(Roles = RoleNames.Administrator)]
+        [HttpPut("{userId}/roles")]
+        public async Task<IActionResult> UpdateUserRolesAsync(Guid userId, [FromBody] UpdateRolesRequestModel model)
+        {
+            var requestDto = UserMapper.ToDto(model);
+            var userRoles = await userFacade.UpdateUserRolesAsync(userId, requestDto);
+            var responseModel = UserMapper.ToUserRolesResponseModel(userRoles);
+            return Ok(responseModel);
+        }
+
+        [Authorize(Roles = RoleNames.Administrator)]
+        [HttpDelete("{userId}/roles")]
+        public async Task<IActionResult> DeleteUserRolesAsync(Guid userId)
+        {
+
+            await userFacade.DeleteUserRolesAsync(userId);
+            return Ok();
         }
 
 

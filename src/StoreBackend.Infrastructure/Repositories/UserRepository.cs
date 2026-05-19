@@ -22,7 +22,9 @@ namespace StoreBackend.Infrastructure.Repositories
 
         public async Task<User?> GetByIdAsync(Guid ExternalId)
         {
-            return await _context.Users
+            return await  _context.Users
+             .Include(u => u.UserRoles)
+             .ThenInclude(ur => ur.Role)
                 .FirstOrDefaultAsync(u => u.ExternalId == ExternalId);
         }
 
@@ -41,12 +43,19 @@ namespace StoreBackend.Infrastructure.Repositories
         {
             return await _context.Users.AnyAsync(u => u.UserName == username);
         }
-           public async Task<bool> HasUserByEmailAsync(string email)
+        public async Task<bool> HasUserByEmailAsync(string email)
         {
             return await _context.Users.AnyAsync(u => u.UserName == email);
         }
-        
+        public Task<User?> GetByUsername(string username)
+        {
+            return _context.Users
+             .Include(u => u.UserRoles)
+             .ThenInclude(ur => ur.Role)
+             .FirstOrDefaultAsync(u => u.UserName == username);
+        }
 
-    
+
+
     }
 }

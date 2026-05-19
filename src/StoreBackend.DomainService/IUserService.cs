@@ -12,5 +12,7 @@ namespace StoreBackend.DomainService
         Task<User?> GetByIdAsync(Guid ExternalId);
         Task<User> AddAsync(CreateUserDto user);
         Task DeleteAsync(Guid ExternalId);
+        Task<User?> GetByUserAndPassword(AuthorizationRequestDto request);
+
     }
 }

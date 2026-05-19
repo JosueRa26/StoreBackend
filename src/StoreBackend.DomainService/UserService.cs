@@ -57,5 +57,20 @@ namespace StoreBackend.DomainService
 
             await _userRepository.DeleteAsync(user);
         }
+        public async Task<User?> GetByUserAndPassword(AuthorizationRequestDto request)
+    {
+        var user = await _userRepository.GetByUsername(request.Username);
+        if (user == null)
+        {
+            return null;
+        }
+
+        if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+        {
+            return null;
+        }
+
+        return user;
+    }
     }
 }

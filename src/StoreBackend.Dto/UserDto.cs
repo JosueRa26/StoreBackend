@@ -1,3 +1,4 @@
+using System;
 namespace StoreBackend.Dto;
 public class UserDto
 {
